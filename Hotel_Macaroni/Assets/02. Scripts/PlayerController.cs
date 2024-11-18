@@ -17,21 +17,63 @@ public class PlayerController : MonoBehaviour
     private Vector2 inputVector;                 // 이동 입력 (WASD)
     private bool isRunning;                      // RUN 상태 여부
 
+    [SerializeField] private bool isDontMove = false;
+    private ReticleManager reticleManager;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();  // CharacterController 초기화
+        reticleManager = GetComponent<ReticleManager>();
         mainCamera = Camera.main;                          // 메인 카메라 참조
+        CursorState(false);
     }
 
     private void Update()
     {
-        // 캐릭터 좌우 회전 처리
-        transform.localEulerAngles = new Vector3(0, mouseX, 0);
 
-        // 카메라 상하 회전 처리 및 각도 제한
-        mouseY = Mathf.Clamp(mouseY, -maxLookAngle, maxLookAngle);
-        mainCamera.transform.localEulerAngles = new Vector3(-mouseY, 0, 0);
+    }
 
+    private void FixedUpdate()
+    {
+        Movement();
+        Rotation();
+    }
+
+    // Move
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (!isDontMove)
+        {
+            inputVector = context.ReadValue<Vector2>();
+        }
+    }
+
+    // Look
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        if (!isDontMove)
+        {
+            Vector2 mouseDelta = context.ReadValue<Vector2>();
+            mouseX += mouseDelta.x * mouseSpeed * Time.deltaTime;   // X축
+            mouseY += mouseDelta.y * mouseSpeed * Time.deltaTime;   // Y축
+        }
+    }
+
+    // Run
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isRunning = true;
+        }
+        else if (context.canceled)
+        {
+            isRunning = false;
+        }
+    }
+
+    public void Movement()
+    {
         // 현재 이동 속도 결정 (걷기 또는 뛰기)
         float currentSpeed = isRunning ? runSpeed : walkSpeed;
 
@@ -52,30 +94,51 @@ public class PlayerController : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
     }
 
-    // Move
-    public void OnMove(InputAction.CallbackContext context)
+    public void Rotation()
     {
-        inputVector = context.ReadValue<Vector2>();
+        // 캐릭터 좌우 회전 처리
+        transform.localEulerAngles = new Vector3(0, mouseX, 0);
+
+        // 카메라 상하 회전 처리 및 각도 제한
+        mouseY = Mathf.Clamp(mouseY, -maxLookAngle, maxLookAngle);
+        mainCamera.transform.localEulerAngles = new Vector3(-mouseY, 0, 0);
     }
 
-    // Look
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        Vector2 mouseDelta = context.ReadValue<Vector2>();
-        mouseX += mouseDelta.x * mouseSpeed * Time.deltaTime;   // X축
-        mouseY += mouseDelta.y * mouseSpeed * Time.deltaTime;   // Y축
-    }
-
-    // Run
-    public void OnRun(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            isRunning = true;
+            reticleManager.InteractionCheck();
         }
-        else if (context.canceled)
+        Debug.Log("Test");
+    }
+
+    public void PlayerDontMove(bool state)
+    {
+        if (state) //움직임 제한
         {
-            isRunning = false;
+            isDontMove = true;
+            inputVector = Vector3.zero;
+        }
+        else //움직임 제한 해제
+        {
+            isDontMove = false;
         }
     }
+
+    public void CursorState(bool state)
+    {
+        Cursor.visible = state;
+        GameManager.instance.playerController.isDontMove = state;
+        if (state) //마우스 커서 활성화
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+        }
+        else //마우스 커서 비활성화
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
 }
