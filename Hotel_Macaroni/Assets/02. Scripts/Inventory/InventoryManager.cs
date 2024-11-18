@@ -10,6 +10,7 @@ public class InventoryManager : MonoBehaviour
     public List<InventorySlot> inventorySlots = new List<InventorySlot>();
 
     private PlayerController playerController;
+    private Color changeColor;
 
     private void Start()
     {
@@ -36,7 +37,7 @@ public class InventoryManager : MonoBehaviour
         inventoryItems.Add(_gameObject);
         var _itemdata = _gameObject.GetComponent<ItemDataSet>().thisItemData;
         invenItemDatas.Add(_itemdata);
-        GetItemToInventory(_itemdata);
+        AddItemToInventory(_itemdata);
         Debug.Log("아이템확인" + _gameObject.name);
         Destroy(_gameObject);
         Debug.Log("필드 아이템파괴");
@@ -44,14 +45,16 @@ public class InventoryManager : MonoBehaviour
         Debug.Log(invenItemDatas[0].itemName + invenItemDatas[0].itemCode);
     }
 
-    public void GetItemToInventory(ItemData _itemData)
+    public void AddItemToInventory(ItemData _itemData)
     {
         for(int i = 0; i < inventorySlots.Count; i++)
         {
             if (inventorySlots[i].ItemData == null)
             {
+                changeColor.a = 1;
                 inventorySlots[i].ItemData = _itemData;
                 inventorySlots[i].itemImage.sprite = _itemData.itemImage;
+                inventorySlots[i].itemImage.color = changeColor;
                 Debug.Log("아이템 추가" + _itemData.itemName);
                 break;
             }

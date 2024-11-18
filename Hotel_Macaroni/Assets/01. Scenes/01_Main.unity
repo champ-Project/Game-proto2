@@ -1527,9 +1527,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 655701978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5d78d63bfd5f2e4db7af8432b3d9431, type: 3}
+  m_Script: {fileID: 11500000, guid: e708be8e2943ed8458739e384b94689f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisItemData: {fileID: 0}
 --- !u!1 &682487926
 GameObject:
   m_ObjectHideFlags: 0
@@ -3011,7 +3012,7 @@ Transform:
   m_GameObject: {fileID: 1255774038}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3051,7 +3052,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 7.92
+  m_Intensity: 3.95
   m_Range: 17.95
   m_SpotAngle: 75.897446
   m_InnerSpotAngle: 67.69952
@@ -3327,7 +3328,19 @@ MonoBehaviour:
     m_ActionId: b6a5cbc4-3cc8-4f30-82b7-37b86b99dbd1
     m_ActionName: 'Player/FlashlightToggle[/Keyboard/f]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1272517139}
+        m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
+        m_MethodName: OnInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 317193fb-7beb-4327-a73d-203eb74bc734
     m_ActionName: 'Player/Inventory[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -3349,7 +3362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3
   runSpeed: 5
-  mouseSpeed: 8
+  mouseSpeed: 3
   gravity: 10
   maxLookAngle: 60
   isDontMove: 0
@@ -3390,7 +3403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f001d380f50cf704faf52e069a1d2754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 696643383}
   inventoryItems: []
   invenItemDatas: []
   inventorySlots:
