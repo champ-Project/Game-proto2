@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public ReticleManager reticleManager;
     public InventoryManager inventoryManager;
+    public SafeManager safeManager;
 
     private void Awake()
     {
@@ -16,5 +17,6 @@ public class GameManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
         reticleManager = player.GetComponent<ReticleManager>();
         inventoryManager = player.GetComponent<InventoryManager>(); 
+        safeManager = player.GetComponent<SafeManager>();
     }
 }

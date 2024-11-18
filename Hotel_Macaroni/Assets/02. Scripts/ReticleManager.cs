@@ -1,4 +1,6 @@
+using SafeSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 //플레이어 조준점 스크립트
@@ -14,6 +16,9 @@ public class ReticleManager : MonoBehaviour
     public Sprite[] iconSprites;            //아이콘 스프라이트
 
     private GameManager gameManager;
+    [SerializeField]private PlayerInput playerInput; // PlayerInput 컴포넌트를 연결
+    [SerializeField] private MonoBehaviour cameraController; // 카메라 컨트롤 스크립트 (예: FirstPersonController)
+
 
     void Start()
     {
@@ -57,16 +62,17 @@ public class ReticleManager : MonoBehaviour
                 else if (currentItem.CompareTag("Interactable"))
                 {
                     ShowInteractUI("Interactable", true);
+                    Debug.Log("상호작용 오브젝트 포착" + currentItem.name );
                 }
                 else
                 {
-                    CrearCurrentItem();
+                    ClearCurrentItem();
                 }
             }
         }
         else
         {
-            CrearCurrentItem();
+            ClearCurrentItem();
         }
     }
 
@@ -91,7 +97,7 @@ public class ReticleManager : MonoBehaviour
     }
 
     //현재 조준중인 아이템이 없을 경우 초기화 하는 메소드
-    private void CrearCurrentItem()
+    private void ClearCurrentItem()
     {
         if(currentItem != null)
         {
@@ -120,7 +126,8 @@ public class ReticleManager : MonoBehaviour
             }
             else if (currentItem.CompareTag("Interactable"))
             {
-
+                gameManager.safeManager.ShowSafeLock();
+                
             }
         }
     }

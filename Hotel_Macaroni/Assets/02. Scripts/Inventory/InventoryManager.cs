@@ -36,6 +36,11 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryItems.Add(_gameObject);
         var _itemdata = _gameObject.GetComponent<ItemDataSet>().thisItemData;
+        if (_itemdata == null)
+        {
+            Debug.LogError("해당 오브젝트에 ItemData없음");
+            return;
+        }
         invenItemDatas.Add(_itemdata);
         AddItemToInventory(_itemdata);
         Debug.Log("아이템확인" + _gameObject.name);
@@ -51,9 +56,10 @@ public class InventoryManager : MonoBehaviour
         {
             if (inventorySlots[i].ItemData == null)
             {
+                changeColor = inventorySlots[i].itemImage.color;
                 changeColor.a = 1;
                 inventorySlots[i].ItemData = _itemData;
-                inventorySlots[i].itemImage.sprite = _itemData.itemImage;
+                if(_itemData.itemImage != null) inventorySlots[i].itemImage.sprite = _itemData.itemImage;
                 inventorySlots[i].itemImage.color = changeColor;
                 Debug.Log("아이템 추가" + _itemData.itemName);
                 break;

@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private bool isDontMove = false;
     private ReticleManager reticleManager;
+    [SerializeField] private GameObject flashLight;
+    [SerializeField] private bool isFlashActive = false;
 
     private void Awake()
     {
@@ -28,9 +30,9 @@ public class PlayerController : MonoBehaviour
         CursorState(false);
     }
 
-    private void Update()
+    private void Start()
     {
-
+        if (!isFlashActive) flashLight.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -111,6 +113,16 @@ public class PlayerController : MonoBehaviour
             reticleManager.InteractionCheck();
         }
         Debug.Log("Test");
+    }
+
+    public void OnFlashLight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            bool isActive = !flashLight.activeSelf;
+            flashLight.SetActive(isActive);
+            isFlashActive = isActive;
+        }
     }
 
     public void PlayerDontMove(bool state)
