@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -20,7 +21,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isDontMove = false;
     private ReticleManager reticleManager;
     [SerializeField] private GameObject flashLight;
-    [SerializeField] private bool isFlashActive = false;
+    public bool isFlashActive = false;
+
+    //테스트용 변수
+    public UnityEvent onFlashChange;
 
     private void Awake()
     {
@@ -122,6 +126,7 @@ public class PlayerController : MonoBehaviour
             bool isActive = !flashLight.activeSelf;
             flashLight.SetActive(isActive);
             isFlashActive = isActive;
+            onFlashChange.Invoke();
         }
     }
 
