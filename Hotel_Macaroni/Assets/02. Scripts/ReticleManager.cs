@@ -1,24 +1,19 @@
-using SafeSystem;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-//í”Œë ˆì´ì–´ ì¡°ì¤€ì  ìŠ¤í¬ë¦½íŠ¸
-//Ray, íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ ì €ì¥, ì˜¤ë¸Œì íŠ¸ í™•ì¸ ë“±
+//ÇÃ·¹ÀÌ¾î Á¶ÁØÁ¡ ½ºÅ©¸³Æ®
+//Ray, Å¸°Ù ¿ÀºêÁ§Æ® ÀúÀå, ¿ÀºêÁ§Æ® È®ÀÎ µî
 public class ReticleManager : MonoBehaviour
 {
-    public float rayDistance = 3f;          //Rayê±°ë¦¬
-    private GameObject currentItem;         //í˜„ì¬ ì¡°ì¤€ì ì— ì¡íŒ ì•„ì´í…œ
-    private bool isReticalOnItem = false;   //ì•„ì´í…œ í¬ì°© ì—¬ë¶€ bool
-    public GameObject reticleText;          //ì¡°ì¤€ì  í…ìŠ¤íŠ¸
-    public GameObject pointerIcon;          //ì¡°ì¤€ì  ì•„ì´ì½˜ ì˜¤ë¸Œì íŠ¸
-    public Image iconImage;                 //ì•„ì´ì½˜ ì´ë¯¸ì§€ ì»´í¬ë„ŒíŠ¸
-    public Sprite[] iconSprites;            //ì•„ì´ì½˜ ìŠ¤í”„ë¼ì´íŠ¸
+    public float rayDistance = 3f;          //Ray°Å¸®
+    private GameObject currentItem;         //ÇöÀç Á¶ÁØÁ¡¿¡ ÀâÈù ¾ÆÀÌÅÛ
+    private bool isReticalOnItem = false;   //¾ÆÀÌÅÛ Æ÷Âø ¿©ºÎ bool
+    public GameObject reticleText;          //Á¶ÁØÁ¡ ÅØ½ºÆ®
+    public GameObject pointerIcon;          //Á¶ÁØÁ¡ ¾ÆÀÌÄÜ ¿ÀºêÁ§Æ®
+    public Image iconImage;                 //¾ÆÀÌÄÜ ÀÌ¹ÌÁö ÄÄÆ÷³ÍÆ®
+    public Sprite[] iconSprites;            //¾ÆÀÌÄÜ ½ºÇÁ¶óÀÌÆ®
 
     private GameManager gameManager;
-    [SerializeField]private PlayerInput playerInput; // PlayerInput ì»´í¬ë„ŒíŠ¸ë¥¼ ì—°ê²°
-    [SerializeField] private MonoBehaviour cameraController; // ì¹´ë©”ë¼ ì»¨íŠ¸ë¡¤ ìŠ¤í¬ë¦½íŠ¸ (ì˜ˆ: FirstPersonController)
-
 
     void Start()
     {
@@ -36,7 +31,7 @@ public class ReticleManager : MonoBehaviour
         DetectItem();
     }
 
-    //Rayë¡œ ì•„ì´í…œ ê°ì§€, currentItemì— ì„ì‹œ ì €ì¥
+    //Ray·Î ¾ÆÀÌÅÛ °¨Áö, currentItem¿¡ ÀÓ½Ã ÀúÀå
     private void DetectItem()
     {
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -52,31 +47,30 @@ public class ReticleManager : MonoBehaviour
                 if (currentItem.CompareTag("Item"))
                 {
                     ShowInteractUI("item", true);
-                    Debug.Log("ì•„ì´í…œ í¬ì°©" + currentItem.name);
+                    Debug.Log("¾ÆÀÌÅÛ Æ÷Âø" + currentItem.name);
                 }
                 else if (currentItem.CompareTag("Openable"))
                 {
                     ShowInteractUI("Openable", true);
-                    Debug.Log("ë¬¸ ë˜ëŠ” ì„œë í¬ì°©" + currentItem.name);
+                    Debug.Log("¹® ¶Ç´Â ¼­¶ø Æ÷Âø" + currentItem.name);
                 }
                 else if (currentItem.CompareTag("Interactable"))
                 {
                     ShowInteractUI("Interactable", true);
-                    Debug.Log("ìƒí˜¸ì‘ìš© ì˜¤ë¸Œì íŠ¸ í¬ì°©" + currentItem.name );
                 }
                 else
                 {
-                    ClearCurrentItem();
+                    CrearCurrentItem();
                 }
             }
         }
         else
         {
-            ClearCurrentItem();
+            CrearCurrentItem();
         }
     }
 
-    //ì˜¤ë¸Œì íŠ¸ì— ë”°ë¥¸ ì•„ì´ì½˜ ë³€ê²½
+    //¿ÀºêÁ§Æ®¿¡ µû¸¥ ¾ÆÀÌÄÜ º¯°æ
     private void ShowInteractUI(string kind, bool state)
     {
         if(kind == "item")
@@ -96,8 +90,8 @@ public class ReticleManager : MonoBehaviour
         iconImage.gameObject.SetActive(state);
     }
 
-    //í˜„ì¬ ì¡°ì¤€ì¤‘ì¸ ì•„ì´í…œì´ ì—†ì„ ê²½ìš° ì´ˆê¸°í™” í•˜ëŠ” ë©”ì†Œë“œ
-    private void ClearCurrentItem()
+    //ÇöÀç Á¶ÁØÁßÀÎ ¾ÆÀÌÅÛÀÌ ¾øÀ» °æ¿ì ÃÊ±âÈ­ ÇÏ´Â ¸Ş¼Òµå
+    private void CrearCurrentItem()
     {
         if(currentItem != null)
         {
@@ -109,12 +103,12 @@ public class ReticleManager : MonoBehaviour
         }
     }
 
-    //ìƒí˜¸ì‘ìš© í™•ì¸
+    //»óÈ£ÀÛ¿ë È®ÀÎ
     public void InteractionCheck()
     {
         if(currentItem != null)
         {
-            Debug.Log("í™•ì¸");
+            Debug.Log("È®ÀÎ");
             if (currentItem.CompareTag("Item"))
             {
                 gameManager.inventoryManager.GetItem(currentItem);
@@ -126,13 +120,16 @@ public class ReticleManager : MonoBehaviour
             }
             else if (currentItem.CompareTag("Interactable"))
             {
-                
-                
+                IInteractable interactable = currentItem.GetComponent<IInteractable>();
+                if(interactable != null)
+                {
+                    interactable.Interact();
+                }
             }
         }
     }
 
-    //ì„ì‹œ í…ŒìŠ¤íŠ¸ìš© ë¬¸ ì—¬ëŠ” ë©”ì†Œë“œ
+    //ÀÓ½Ã Å×½ºÆ®¿ë ¹® ¿©´Â ¸Ş¼Òµå
     public void DoorActive(Animator _animator)
     {
         Vector3 directionToPlayer = (gameManager.playerController.transform.position - _animator.gameObject.transform.position).normalized;
