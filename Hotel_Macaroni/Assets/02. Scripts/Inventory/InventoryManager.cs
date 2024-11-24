@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class InventoryManager : MonoBehaviour
 
     public void GetItem(GameObject _gameObject)
     {
-        inventoryItems.Add(_gameObject);
+        //inventoryItems.Add(_gameObject);
         var _itemdata = _gameObject.GetComponent<ItemDataSet>().thisItemData;
         if (_itemdata == null)
         {
@@ -64,6 +65,72 @@ public class InventoryManager : MonoBehaviour
                 Debug.Log("아이템 추가" + _itemData.itemName);
                 break;
             }
+        }
+    }
+
+    public bool CheckInventory(string _itemName)
+    {
+        bool isHave = false;
+        foreach(var data in inventorySlots)
+        {
+            if(data.ItemData != null)
+            {
+                if (data.ItemData.itemName == _itemName)
+                {
+                    Debug.Log(_itemName + "아이템 존재함");
+                    isHave = true;
+                    break;
+                }
+            }
+        }
+        if (!isHave)
+        {
+            Debug.Log(_itemName + "아이템 없음");
+        }
+        return isHave;
+    }
+
+    public void RemoveItem(string _itemName)
+    {
+        for(int i = 0; i < inventorySlots.Count; i++)
+        {
+            if (inventorySlots[i].ItemData != null && inventorySlots[i].ItemData.itemName == _itemName)
+            {
+                Debug.Log("확인1");
+                inventorySlots[i].ItemData = null;
+                inventorySlots[i].itemImage.sprite = null;
+                ShiftItems(i);
+                return;
+            }
+        }
+        Debug.Log(_itemName + "아이템 제거됨");
+    }
+
+    public void ShiftItems(int startIndex)
+    {
+        Debug.Log("확인2");
+        for (int i = startIndex; i < inventorySlots.Count - 1; i++)
+        {
+            /*if(inventorySlots[i+1].ItemData == null)
+            {
+                Debug.Log("확인2-1");
+                break;
+            }*/
+
+            if (inventorySlots[i+1].ItemData != null) //다음 인벤토리 슬롯이 빈칸이 아닐때
+            {
+                inventorySlots[i].ItemData = inventorySlots[i + 1].ItemData; //현재 칸의 데이터를 다음 칸에서 끌어옴
+                inventorySlots[i].itemImage.sprite = inventorySlots[i + 1].itemImage.sprite; //이미지 교체
+                inventorySlots[i + 1].ItemData = null;
+                inventorySlots[i + 1].itemImage.sprite = null;
+            }
+            else
+            {
+                Debug.Log("확인3");
+                changeColor = inventorySlots[i].itemImage.color;
+                changeColor.a = 0;
+                inventorySlots[i].itemImage.color = changeColor;
+            }           
         }
     }
 }
