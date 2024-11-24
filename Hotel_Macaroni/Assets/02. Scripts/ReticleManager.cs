@@ -120,7 +120,11 @@ public class ReticleManager : MonoBehaviour
             }
             else if (currentItem.CompareTag("Interactable"))
             {
-
+                IInteractable interactable = currentItem.GetComponent<IInteractable>();
+                if(interactable != null)
+                {
+                    interactable.Interact();
+                }
             }
         }
     }
