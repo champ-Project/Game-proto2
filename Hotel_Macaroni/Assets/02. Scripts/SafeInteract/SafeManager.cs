@@ -6,12 +6,7 @@ public class SafeManager :  MonoBehaviour, IInteractable
 {
     [SerializeField] private SafeController _safeController = null;
 
-    void IInteractable.Interact()
-    {
-        
-    }
-
-    public void ShowSafeLock()
+    public void Interact()
     {
         if (_safeController != null)
         {
