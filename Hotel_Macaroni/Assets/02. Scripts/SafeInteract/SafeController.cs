@@ -7,6 +7,10 @@ namespace SafeSystem
 {
     public class SafeController : MonoBehaviour
     {
+
+        [SerializeField] private SafeUIManager safeUIManager;
+        [SerializeField] private PlayerController playerController;
+
         [Header("Safe Model References")]
         [SerializeField] private GameObject safeModel = null;
         [SerializeField] private Transform safeDial = null;
@@ -45,12 +49,12 @@ namespace SafeSystem
         public void ShowSafeUI()
         {
 
-
             isInteracting = true;
             lockState = 1;
-            SafeUIManager.instance.ShowMainSafeUI(true);
-            DisableManager.instance.DisablePlayer(true);
-            SafeUIManager.instance.SetUIButtons(this);
+            safeUIManager.ShowMainSafeUI(true);
+            playerController.PlayerDontMove(true);
+            playerController.CursorState(true);
+            safeUIManager.SetUIButtons(this);
         }
 
         private void Update()
@@ -63,22 +67,18 @@ namespace SafeSystem
 
         private void CloseSafeUI()
         {
-            DisableManager.instance.DisablePlayer(false);
+            playerController.PlayerDontMove(false);
+            playerController.CursorState(false);
             ResetSafeDial(false);
-            SafeUIManager.instance.ShowMainSafeUI(false);
+            safeUIManager.ShowMainSafeUI(false);
             isInteracting = false;
         }
 
         void ResetSafeDial(bool hasComplete)
         {
-            if (!hasComplete)
-            {
-
-            }
-
             lockState = 1;
 
-            SafeUIManager.instance.ResetSafeUI();
+            safeUIManager.ResetSafeUI();
             safeDial.transform.localEulerAngles = Vector3.zero;
 
             // Reset the current lock number and all the current lock numbers.
@@ -91,13 +91,14 @@ namespace SafeSystem
 
         private IEnumerator CheckCode()
         {
-            SafeUIManager.instance.PlayerInputCode();
+            safeUIManager.PlayerInputCode();
             string safeSolution = $"{safeSolutionNum1}{safeSolutionNum2}{safeSolutionNum3}";
 
-            if (SafeUIManager.instance.playerInputNumber == safeSolution)
+            if (safeUIManager.playerInputNumber == safeSolution)
             {
-                DisableManager.instance.DisablePlayer(false);
-                SafeUIManager.instance.ShowMainSafeUI(false);
+                playerController.PlayerDontMove(false);
+                playerController.CursorState(false);
+                safeUIManager.ShowMainSafeUI(false);
                 isInteracting = false;
                 safeModel.tag = "Untagged";
 
@@ -122,32 +123,32 @@ namespace SafeSystem
 
         public void CheckDialNumber()
         {
-            SafeUIManager.instance.ResetEventSystem();
+            safeUIManager.ResetEventSystem();
 
             // Save the current lock number before switching.
             currentLockNumbers[lockState - 1] = currentLockNumber;
 
             if (lockState < 3)
             {
-                SafeUIManager.instance.UpdateUIState(lockState);
+                safeUIManager.UpdateUIState(lockState);
                 currentLockNumbers[lockState] = currentLockNumber;
                 lockState++;
             }
             else
             {
-                SafeUIManager.instance.UpdateUIState(3);
+                safeUIManager.UpdateUIState(3);
                 StartCoroutine(CheckCode());
                 lockState = 1;
             }
 
             // After switching, set the current lock number to the saved value for this lock state.
             currentLockNumber = currentLockNumbers[lockState - 1];
-            SafeUIManager.instance.UpdateNumber(lockState - 1, currentLockNumber);
+            safeUIManager.UpdateNumber(lockState - 1, currentLockNumber);
         }
 
         public void MoveDialLogic(int lockNumberSelection)
         {
-            SafeUIManager.instance.ResetEventSystem();
+            safeUIManager.ResetEventSystem();
 
 
             if (lockNumberSelection == 1 || lockNumberSelection == 3)
@@ -163,7 +164,7 @@ namespace SafeSystem
                 RotateDial(true);
             }
 
-            SafeUIManager.instance.UpdateNumber(lockState - 1, currentLockNumber);
+            safeUIManager.UpdateNumber(lockState - 1, currentLockNumber);
         }
 
         void RotateDial(bool positive)
