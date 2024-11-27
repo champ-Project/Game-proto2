@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 namespace SafeSystem
 {
@@ -18,28 +19,16 @@ namespace SafeSystem
         [Tooltip("Add the UI selection buttons, there should be 3")]
         [Space(5)][SerializeField] private Button[] selectionBtn = new Button[3];
 
-        [Space(5)][SerializeField] private GameObject interactPrompt = null;
 
         public string playerInputNumber { get; private set; }
 
-        public static SafeUIManager instance;
-
-        void Awake()
-        {
-            if (instance != null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                instance = this;
-            }
-        }
 
         public void ShowMainSafeUI(bool active)
         {
-            safeCanvasGroup.alpha = active ? 1 : 0;
-            if(active)
+            Debug.Log("호출");
+            safeCanvasGroup.gameObject.SetActive(active);
+
+            if (active)
             {
                 SetInitialSafeUI();
             }
@@ -106,10 +95,6 @@ namespace SafeSystem
             }
         }
 
-        public void SetInteractPrompt(bool on)
-        {
-            interactPrompt.SetActive(on);
-        }
 
 
         void FieldNullCheck()
@@ -127,7 +112,6 @@ namespace SafeSystem
                 CheckField(selectionBtn[i], $"SelectionBtn[{i}]");
             }
 
-            CheckField(interactPrompt, "InteractPrompt");
    
         }
 
