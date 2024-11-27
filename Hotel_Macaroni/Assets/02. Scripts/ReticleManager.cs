@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +38,7 @@ public class ReticleManager : MonoBehaviour
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, rayDistance))
+        if (Physics.Raycast(ray, out hit, rayDistance))
         {
             if (currentItem != hit.collider.gameObject)
             {
@@ -73,15 +74,15 @@ public class ReticleManager : MonoBehaviour
     //오브젝트에 따른 아이콘 변경
     private void ShowInteractUI(string kind, bool state)
     {
-        if(kind == "item")
+        if (kind == "item")
         {
             iconImage.sprite = iconSprites[0];
         }
-        else if(kind == "Openable")
+        else if (kind == "Openable")
         {
             iconImage.sprite = iconSprites[1];
         }
-        else if(kind == "Interactable")
+        else if (kind == "Interactable")
         {
             iconImage.sprite = iconSprites[2];
         }
@@ -93,10 +94,10 @@ public class ReticleManager : MonoBehaviour
     //현재 조준중인 아이템이 없을 경우 초기화 하는 메소드
     private void CrearCurrentItem()
     {
-        if(currentItem != null)
+        if (currentItem != null)
         {
             currentItem = null;
-            isReticalOnItem= false;
+            isReticalOnItem = false;
             pointerIcon.SetActive(true);
             reticleText.SetActive(false);
             iconImage.gameObject.SetActive(false);
@@ -106,7 +107,7 @@ public class ReticleManager : MonoBehaviour
     //상호작용 확인
     public void InteractionCheck()
     {
-        if(currentItem != null)
+        if (currentItem != null)
         {
             Debug.Log("확인");
             if (currentItem.CompareTag("Item"))
@@ -115,13 +116,14 @@ public class ReticleManager : MonoBehaviour
             }
             else if (currentItem.CompareTag("Openable"))
             {
-                Animator _currentDoorAnim = currentItem.GetComponent<Animator>();
-                DoorActive(_currentDoorAnim);
+                //Animator _currentDoorAnim = currentItem.GetComponent<Animator>();
+                Animator _currentDoorAnim = currentItem.GetComponentInParent<Animator>();
+                DoorActive(_currentDoorAnim, currentItem);
             }
             else if (currentItem.CompareTag("Interactable"))
             {
                 IInteractable interactable = currentItem.GetComponent<IInteractable>();
-                if(interactable != null)
+                if (interactable != null)
                 {
                     interactable.Interact();
                 }
@@ -130,17 +132,25 @@ public class ReticleManager : MonoBehaviour
     }
 
     //임시 테스트용 문 여는 메소드
-    public void DoorActive(Animator _animator)
+    public void DoorActive(Animator _animator, GameObject doorObject)
     {
-        Vector3 directionToPlayer = (gameManager.playerController.transform.position - _animator.gameObject.transform.position).normalized;
+        //Vector3 directionToPlayer = (this.gameObject.transform.position - doorObject.transform.position).normalized;
+        Vector3 localPlayerPos = doorObject.transform.InverseTransformPoint(this.gameObject.transform.position);
 
-        if(Vector3.Dot(directionToPlayer, transform.right) > 0)
+        if ((_animator.GetBool("DoorOpenNeg")) == true || (_animator.GetBool("DoorOpenPos")) == true)
         {
-            _animator.SetBool("isOpen01", true);
+            _animator.SetBool("DoorOpenNeg", false);
+            _animator.SetBool("DoorOpenPos", false);
+            return;
+        }
+
+        if (localPlayerPos.x > 0 /*Vector3.Dot(directionToPlayer, transform.right) > 0*/) //문 오브젝트의 회전값 문제로 인해 임시 forward
+        {
+            _animator.SetBool("DoorOpenNeg", true);
         }
         else
         {
-            _animator.SetBool("isOpen02", true);
+            _animator.SetBool("DoorOpenPos", true);
         }
     }
 }
