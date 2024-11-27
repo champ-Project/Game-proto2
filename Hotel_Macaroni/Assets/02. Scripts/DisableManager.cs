@@ -5,24 +5,10 @@ public class DisableManager : MonoBehaviour
 {
     public GameManager gameManager;
 
-    [SerializeField] private bool persistAcrossScenes = true;
+ 
 
-    public static DisableManager instance;
-    void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            if (persistAcrossScenes)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-        }
-    }
+    
+ 
 
     public void DisablePlayer(bool disable)
     {
