@@ -102,14 +102,16 @@ namespace SafeSystem
                 isInteracting = false;
                 safeModel.tag = "Untagged";
 
-                yield return new WaitForSeconds(beforeAnimationStart);
-                safeAnim.Play(safeAnimationName, 0, 0.0f);
-                yield return new WaitForSeconds(beforeOpenDoor);
-
                 if (keyObject != null)
                 {
                     keyObject.SetActive(true);
                 }
+
+                yield return new WaitForSeconds(beforeAnimationStart);
+                safeAnim.Play(safeAnimationName, 0, 0.0f);
+                yield return new WaitForSeconds(beforeOpenDoor);
+
+              
 
 
                 ResetSafeDial(true);
