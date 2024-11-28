@@ -2361,7 +2361,7 @@ GameObject:
   - component: {fileID: 559513231}
   - component: {fileID: 559513230}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: CheckArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10806,7 +10806,7 @@ GameObject:
   - component: {fileID: 2086177206}
   - component: {fileID: 2086177205}
   m_Layer: 0
-  m_Name: article
+  m_Name: Painting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
