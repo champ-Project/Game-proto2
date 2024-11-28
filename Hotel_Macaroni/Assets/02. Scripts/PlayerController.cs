@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     //테스트용 변수
     public UnityEvent onFlashChange;
 
+    public GameObject noteUI; //일단 플레이어 컨트롤러에서 임시로 사용
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();  // CharacterController 초기화
@@ -127,6 +129,25 @@ public class PlayerController : MonoBehaviour
             flashLight.SetActive(isActive);
             isFlashActive = isActive;
             onFlashChange.Invoke();
+        }
+    }
+
+    public void OnNoteOpen(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (GameManager.instance.nowOpenUI != null) return;
+
+            bool isActive = !noteUI.activeSelf;
+
+            if (isActive)
+            {
+                GameManager.instance.nowOpenUI = noteUI;
+            }
+            else
+            {
+                GameManager.instance.nowOpenUI = null;
+            }
         }
     }
 

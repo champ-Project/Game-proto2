@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Note",
+                    "type": "Button",
+                    "id": "319d4913-8a62-49fb-9753-4eeba80c6e6f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -168,6 +177,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1dc8e9c5-9486-44fc-9777-571e4e1a336a",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Note",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

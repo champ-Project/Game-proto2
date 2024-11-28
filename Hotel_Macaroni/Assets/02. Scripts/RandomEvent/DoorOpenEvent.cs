@@ -18,14 +18,27 @@ public class DoorOpenEvent : MonoBehaviour
     private float startGrainValue = 0;
     private float endGrainValue = 1;
 
+    private int testCount = 2;
+    private int nowCount = 0;
+
+    private void Start()
+    {
+        animator.speed = 0.2f;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (isActive && other.CompareTag("Player"))
         {
+            nowCount++;
+            if(nowCount == testCount)
+            {
+                StartCoroutine(EventActiveCoroutine());
+            }
             //Debug.Log("확인도어이벤트");
             /*eventManager.filmGrain.active = true;
             eventManager.filmGrain.intensity.value = 1f;*/
-            StartCoroutine(EventActiveCoroutine());
+            
         }
         
     }
@@ -42,7 +55,9 @@ public class DoorOpenEvent : MonoBehaviour
 
     private IEnumerator EventActiveCoroutine()
     {
-        //animator.SetTrigger("isOpen"); //문열림
+        animator.SetBool("DoorOpenNeg", true); //문열림
+        AudioManager.Instance.PlaySFX("DoorOpenS", this.transform.position);
+
         Debug.Log("문열림, 카운트 시작");
         yield return new WaitForSeconds(3f);
 

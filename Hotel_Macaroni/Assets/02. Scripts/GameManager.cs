@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     public Text gameTimeText;
 
+    public GameObject nowOpenUI = null;
+
     private void Awake()
     {
         instance = this;

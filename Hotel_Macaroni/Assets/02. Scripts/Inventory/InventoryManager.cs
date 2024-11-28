@@ -23,7 +23,20 @@ public class InventoryManager : MonoBehaviour
     {
         if (context.performed)
         {
+            if (GameManager.instance.nowOpenUI != null) return;
+
+            
             bool isActive = !inventoryUI.activeSelf;
+
+            if (isActive) 
+            {
+                GameManager.instance.nowOpenUI = inventoryUI; 
+            }
+            else 
+            {
+                GameManager.instance.nowOpenUI = null;
+            }
+
             inventoryUI.SetActive(isActive);
             playerController.PlayerDontMove(isActive);
             playerController.CursorState(isActive);

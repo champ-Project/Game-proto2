@@ -117,8 +117,22 @@ public class ReticleManager : MonoBehaviour
             else if (currentItem.CompareTag("Openable"))
             {
                 //Animator _currentDoorAnim = currentItem.GetComponent<Animator>();
-                Animator _currentDoorAnim = currentItem.GetComponentInParent<Animator>();
-                DoorActive(_currentDoorAnim, currentItem);
+                //IInteractable interactable = currentItem.GetComponentInParent<IInteractable>();
+
+                /*if (interactable != null) //IInteractable를 가지고 있을 경우
+                {
+                    interactable.Interact();
+                }*/
+                OpenableSet openableSet = currentItem.GetComponentInParent<OpenableSet>();
+                if (openableSet != null)
+                {
+                    openableSet.OpenableCheck(currentItem);
+                }
+                else
+                {
+                    Animator _currentDoorAnim = currentItem.GetComponentInParent<Animator>();
+                    DoorActive(_currentDoorAnim, currentItem);
+                }
             }
             else if (currentItem.CompareTag("Interactable"))
             {
@@ -141,16 +155,24 @@ public class ReticleManager : MonoBehaviour
         {
             _animator.SetBool("DoorOpenNeg", false);
             _animator.SetBool("DoorOpenPos", false);
+            AudioManager.Instance.PlaySFX("DoorClose", doorObject.transform.position);
             return;
         }
 
         if (localPlayerPos.x > 0 /*Vector3.Dot(directionToPlayer, transform.right) > 0*/) //문 오브젝트의 회전값 문제로 인해 임시 forward
         {
             _animator.SetBool("DoorOpenNeg", true);
+            AudioManager.Instance.PlaySFX("DoorOpen", doorObject.transform.position);
         }
         else
         {
             _animator.SetBool("DoorOpenPos", true);
+            AudioManager.Instance.PlaySFX("DoorOpen", doorObject.transform.position);
         }
+    }
+
+    public void DrawerActive()
+    {
+
     }
 }
