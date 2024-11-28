@@ -5,20 +5,20 @@ using UnityEngine.UIElements;
 
 public class SafePWInteract : MonoBehaviour,IInteractable
 {
-    [SerializeField] private GameObject SafePWImage = null;
+    [SerializeField] private GameObject _showUIimage = null;
     [SerializeField] private PlayerController playerController;
 
     private bool isActive= false;
 
     public void Interact()
     {
-        if (SafePWImage != null)
+        if (_showUIimage != null)
         {
             onShowImage();
         }
         else
         {
-            Debug.LogWarning("_safeHintObject를 실행할 수 없습니다.");
+            Debug.LogWarning("를 실행할 수 없습니다.");
         }
     }
 
@@ -26,8 +26,8 @@ public class SafePWInteract : MonoBehaviour,IInteractable
 
     void onShowImage()
     {
-        isActive = !SafePWImage.activeSelf;
-        SafePWImage.SetActive(isActive);
+        isActive = !_showUIimage.activeSelf;
+        _showUIimage.SetActive(isActive);
         playerController.PlayerDontMove(isActive);
         playerController.CursorState(isActive);
     }
