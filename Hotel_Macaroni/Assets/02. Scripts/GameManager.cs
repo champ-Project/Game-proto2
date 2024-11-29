@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     public ReticleManager reticleManager;
     public InventoryManager inventoryManager;
     public SafeManager safeManager;
+    public MsgManager msgManager;
 
     public bool isGetNote = false; //플레이어가 노트를 획득했는지 확인하는 bool 값
     public string nowPlayerName;
@@ -27,6 +29,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject nowOpenUI = null;
 
+    public Transform startPos;
+    public GameObject deadUI;
+    public Text deadReasonText;
+
+    //public GameObject moveObj;
+
     private void Awake()
     {
         instance = this;
@@ -35,11 +43,13 @@ public class GameManager : MonoBehaviour
         reticleManager = player.GetComponent<ReticleManager>();
         inventoryManager = player.GetComponent<InventoryManager>(); 
         safeManager = player.GetComponent<SafeManager>();
+        msgManager = GetComponent<MsgManager>();
     }
 
     private void Start()
     {
         SetInitialTime(startHours, startMinutes);
+        //ChangePlayer();
     }
 
     private void FixedUpdate()
@@ -49,7 +59,13 @@ public class GameManager : MonoBehaviour
 
     public void ChangePlayer()
     {
-
+        Debug.Log("위치이동");
+        //
+        //Rigidbody rb = player.GetComponent<Rigidbody>();
+        //rb.MovePosition(startPos.transform.position);
+        CharacterController characterController = player.GetComponent<CharacterController>();
+        characterController.enabled = false;
+        player.transform.position = startPos.position;
     }
 
 
@@ -92,5 +108,33 @@ public class GameManager : MonoBehaviour
         {
             gameTimeText.text = $"게임 내 시간: {gameHours:00}:{gameMinutes:00}";
         }
+    }
+
+
+    public void PlayerDead(string reason)
+    {
+        
+        
+        nowPlayerName = null;
+        isGetNote = false;
+        
+        deadReasonText.text = reason;
+        StartCoroutine(PlayerDeadSequence());
+    }
+
+    private IEnumerator PlayerDeadSequence()
+    {
+        playerController.PlayerDontMove(true);
+        playerController.CursorState(true);
+        deadUI.SetActive(true);
+        ChangePlayer();
+        yield return new WaitForSeconds(5f);
+        deadUI.SetActive(false);
+        CharacterController characterController = player.GetComponent<CharacterController>();
+        characterController.enabled = true;
+        playerController.PlayerDontMove(false);
+        playerController.CursorState(false);
+        EventManager eventManager = GetComponent<EventManager>();
+        eventManager.filmGrain.intensity.value = 0;
     }
 }

@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6774247065298536847
 Transform:
   m_ObjectHideFlags: 0
@@ -120,8 +120,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.3, y: 1.3, z: 1.3}
+  m_Center: {x: -0.009399316, y: -0.118439496, z: -0.07734459}
 --- !u!1 &4002874438251245181
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,14 +198,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce5bbd0ce0f1e74eb3160c111fb441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  safeUIManager: {fileID: 0}
+  playerController: {fileID: 0}
   safeModel: {fileID: 64932514842505166}
   safeDial: {fileID: 8740773698575086012}
   safeAnimationName: SafeDoorOpen
   beforeAnimationStart: 1
   beforeOpenDoor: 0.5
-  safeSolutionNum1: 6
+  safeSolutionNum1: 1
   safeSolutionNum2: 6
-  safeSolutionNum3: 6
+  safeSolutionNum3: 8
   safeOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -343,6 +345,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4959698211841538769}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f74613fac9ac3284e9d57b699d7225cb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4578589716779402733}
   m_SourcePrefab: {fileID: 100100000, guid: f74613fac9ac3284e9d57b699d7225cb, type: 3}
 --- !u!1 &64932514842505166 stripped
 GameObject:
@@ -391,8 +397,21 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4295319, y: 0.4949873, z: 0.44175524}
+  m_Size: {x: 0.3, y: 0.3, z: 0.3}
   m_Center: {x: 0, y: 0.24749362, z: 0.011538939}
+--- !u!114 &4578589716779402733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64932514842505166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c068089fdd3b9fe48aada38a9f0f1d57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _safeController: {fileID: 2390022250459259249}
 --- !u!4 &841468805665207668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f74613fac9ac3284e9d57b699d7225cb,

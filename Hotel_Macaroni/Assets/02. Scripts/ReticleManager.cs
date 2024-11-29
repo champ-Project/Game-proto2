@@ -124,9 +124,15 @@ public class ReticleManager : MonoBehaviour
                     interactable.Interact();
                 }*/
                 OpenableSet openableSet = currentItem.GetComponentInParent<OpenableSet>();
+                LockedObject lockedObject = currentItem.GetComponentInParent<LockedObject>();
+
                 if (openableSet != null)
                 {
                     openableSet.OpenableCheck(currentItem);
+                }
+                else if (lockedObject != null)
+                {
+                    lockedObject.CheckInventory();
                 }
                 else
                 {

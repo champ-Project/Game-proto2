@@ -29,6 +29,10 @@ public class CigMachine : MonoBehaviour
                     break;
                 case 3:
                     animator.SetTrigger("PullLever03");
+                    if (machineItems[0] != null)
+                    {
+                        machineItems[0].SetActive(true);
+                    }
                     break;
                 case 4:
                     animator.SetTrigger("PullLever04");
@@ -40,10 +44,11 @@ public class CigMachine : MonoBehaviour
                     Debug.LogError("레버 번호 오류");
                     break;
             }
-            if (machineItems[leverNum-1] != null)
+            /*if (machineItems[leverNum-1] != null)
             {
                 Instantiate(machineItems[leverNum - 1], itemSpawnTrans);
-            }
+            }*/
+            
         }
         else
         {

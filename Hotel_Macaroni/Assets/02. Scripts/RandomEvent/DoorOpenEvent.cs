@@ -75,7 +75,8 @@ public class DoorOpenEvent : MonoBehaviour
 
             eventManager.filmGrain.intensity.value = endGrainValue;
 
-            //animator.SetTrigger("isClose");
+            animator.SetBool("DoorOpenNeg", false);
+            gameManager.PlayerDead("당신은 사람이 아닌 무언가를 봤습니다.");
             Debug.Log("문닫힘, 카운트 종료");
         }
 

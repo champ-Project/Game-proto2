@@ -99,7 +99,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // CharacterController를 통해 이동
-        controller.Move(moveDirection * Time.deltaTime);
+        if (controller.enabled == true)
+        {
+            controller.Move(moveDirection * Time.deltaTime);
+        }
     }
 
     public void Rotation()
@@ -136,10 +139,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (GameManager.instance.nowOpenUI != null) return;
+            //if (GameManager.instance.nowOpenUI != null) return;
 
             bool isActive = !noteUI.activeSelf;
 
+            noteUI.SetActive(isActive);
             if (isActive)
             {
                 GameManager.instance.nowOpenUI = noteUI;
@@ -148,6 +152,9 @@ public class PlayerController : MonoBehaviour
             {
                 GameManager.instance.nowOpenUI = null;
             }
+
+            PlayerDontMove(isActive);
+            CursorState(isActive);
         }
     }
 

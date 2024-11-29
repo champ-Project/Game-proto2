@@ -14,7 +14,7 @@ public class MsgManager : MonoBehaviour
     public float displayTime = 3f;
 
     //private Coroutine toastMsgCoroution = null;
-    //private Coroutine subtitleMsgCoroution = null;
+    private Coroutine subtitleMsgCoroution = null;
     private Queue<(string, string, int, int)> toastMsgQueue = new Queue<(string, string, int, int)>();
     private Queue<(string, string, int, int)> subtitleMsgQueue = new Queue<(string, string, int, int)>();
 
@@ -22,7 +22,7 @@ public class MsgManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        //SubtitleMsg("Test");
     }
 
     // Update is called once per frame
@@ -33,8 +33,13 @@ public class MsgManager : MonoBehaviour
 
     public void SubtitleMsg(string content)
     {
+        Debug.Log("Test1");
         subtitleMsgQueue.Enqueue(("Subtitle", content, 0, 0));
-        
+        if(subtitleMsgCoroution == null)
+        {
+            Debug.Log("Test2");
+            subtitleMsgCoroution = StartCoroutine(ProcessMsgQueue());
+        }
     }
 
     public void ToastMsg(string content)
@@ -49,9 +54,10 @@ public class MsgManager : MonoBehaviour
 
     private IEnumerator ProcessMsgQueue()
     {
-        while (toastMsgQueue.Count > 0)
+        Debug.Log("Test3");
+        while (subtitleMsgQueue.Count > 0)
         {
-            var (type, content, firstParam, secondParam) = toastMsgQueue.Dequeue();
+            var (type, content, firstParam, secondParam) = subtitleMsgQueue.Dequeue();
             if (type == "Toast")
             {
 
@@ -62,7 +68,9 @@ public class MsgManager : MonoBehaviour
                 subtitleText.text = content;
             }
             yield return new WaitForSeconds(displayTime);
+            subtitleUI.SetActive(false);
         }
+        subtitleMsgCoroution = null;
     }
 
 

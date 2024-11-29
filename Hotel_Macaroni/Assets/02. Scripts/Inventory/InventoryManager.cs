@@ -23,7 +23,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (context.performed)
         {
-            if (GameManager.instance.nowOpenUI != null) return;
+            //if (GameManager.instance.nowOpenUI != null) return;
 
             
             bool isActive = !inventoryUI.activeSelf;

@@ -122,5 +122,6 @@ public class CameraEffectOnObjectVisible : MonoBehaviour
     private void EventOccured()
     {
         Debug.Log("이상현상으로 인한 이벤트 발생");
+        GameManager.instance.PlayerDead("그림이 당신을 삼켰습니다.");
     }
 }
