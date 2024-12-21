@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestItemData _key
   m_EditorClassIdentifier: 
   itemCode: T001
-  itemName: TestKey
+  itemName: ElevatorKey
   itemImage: {fileID: 21300000, guid: b1d370585264921459ab14cafe512307, type: 3}
   iteminfo: 

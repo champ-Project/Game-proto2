@@ -11,7 +11,7 @@ public class EventManager : MonoBehaviour
     public class EventSet
     {
         public bool isNowActive = false;
-        public GameObject evnetObject;
+        public GameObject eventObject;
     }
 
     private GameManager gameManager;
@@ -19,6 +19,8 @@ public class EventManager : MonoBehaviour
 
     [SerializeField] private Volume volume;
     [SerializeField] public FilmGrain filmGrain;
+
+    [SerializeField] private GameObject nowEventObject = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,5 +41,18 @@ public class EventManager : MonoBehaviour
     public void AroundEvent()
     {
         
+    }
+
+    public void NowActiveEvent(GameObject gameObject)
+    {
+        nowEventObject = gameObject;
+
+        foreach(var eventSet in gameEvnets)
+        {
+            if(eventSet.eventObject == nowEventObject)
+            {
+                eventSet.isNowActive = true;
+            }
+        }
     }
 }

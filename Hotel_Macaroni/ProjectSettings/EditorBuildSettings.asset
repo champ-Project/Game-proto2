@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01. Scenes/Main_TestScene_Her.unity
+    guid: 17fcdab1a5a0cd74caff5272ee53d506
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

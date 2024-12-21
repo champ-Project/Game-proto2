@@ -1,7 +1,15 @@
 using UnityEngine;
 
+public enum Types
+{
+    Door,
+    Elevator
+}
+
 public class LockedObject : MonoBehaviour
 {
+
+    public Types objectType;
 
     public string keyItemName;
 
@@ -9,11 +17,21 @@ public class LockedObject : MonoBehaviour
 
     private bool isOpened = false;
 
+
+
     public void CheckInventory()
     {
         if (isOpened)
         {
-            GameManager.instance.reticleManager.DoorActive(animator, this.gameObject);
+            if(objectType == Types.Door)
+            {
+                GameManager.instance.reticleManager.DoorActive(animator, this.gameObject);
+            }
+            else if (objectType == Types.Elevator)
+            {
+                animator.SetBool("isOpen", true);
+                AudioManager.Instance.PlaySFX("ElevatorOpen", this.transform.position);
+            }
         }
         else
         {
@@ -22,10 +40,14 @@ public class LockedObject : MonoBehaviour
             {
                 isOpened = true;
                 AudioManager.Instance.PlaySFX("DoorUnlock", this.transform.position);
+                if(objectType == Types.Elevator)
+                {
+                    animator.SetBool("isLockOff", true);
+                }
             }
             else
             {
-                GameManager.instance.msgManager.SubtitleMsg("문이 잠겨있습니다.");
+                GameManager.instance.msgManager.SubtitleMsg("잠겨있습니다.");
             }
         }
     }

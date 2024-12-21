@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public GameObject deadUI;
     public Text deadReasonText;
 
+    public Animator mainRoomDoor;
+
     //public GameObject moveObj;
 
     private void Awake()
@@ -113,8 +115,12 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead(string reason)
     {
-        
-        
+        if ((mainRoomDoor.GetBool("DoorOpenNeg")) == true || (mainRoomDoor.GetBool("DoorOpenPos")) == true)
+        {
+            mainRoomDoor.SetBool("DoorOpenNeg", false);
+            mainRoomDoor.SetBool("DoorOpenPos", false);
+        }
+
         nowPlayerName = null;
         isGetNote = false;
         

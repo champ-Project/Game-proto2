@@ -1,6 +1,5 @@
 using SafeSystem;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class SafeManager :  MonoBehaviour, IInteractable
 {

@@ -37,7 +37,8 @@ public class GuideNoteManager : MonoBehaviour
 
     public void NoteSet()
     {
-        noteUI.SetActive(true); 
+        noteUI.SetActive(true);
+        nameInputField.text = "";
         nameInputUI.SetActive(true);
         gameManager.isGetNote = true;
         gameManager.playerController.PlayerDontMove(true);
