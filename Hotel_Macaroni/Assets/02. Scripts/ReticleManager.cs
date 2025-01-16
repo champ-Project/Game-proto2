@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class ReticleManager : MonoBehaviour
     public Sprite[] iconSprites;            //아이콘 스프라이트
 
     private GameManager gameManager;
+    [SerializeField]
+    private CinemachineCamera playerCam;
 
     void Start()
     {
@@ -35,7 +38,9 @@ public class ReticleManager : MonoBehaviour
     //Ray로 아이템 감지, currentItem에 임시 저장
     private void DetectItem()
     {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        //Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
+
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, rayDistance))

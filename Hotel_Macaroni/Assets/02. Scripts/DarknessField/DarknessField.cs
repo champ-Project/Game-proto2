@@ -30,7 +30,7 @@ public class DarknessField : MonoBehaviour
     {
         if(playerInArea && playerController != null)
         {
-            if (playerController.isFlashActive)
+            if (playerController.FlashLightCheck())
             {
                 Debug.Log("빛을 사용중");
             }

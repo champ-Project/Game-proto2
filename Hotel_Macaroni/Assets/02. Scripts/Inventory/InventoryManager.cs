@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     public List<GameObject> inventoryItems = new List<GameObject>();
     public List<ItemData> invenItemDatas = new List<ItemData>();
     public List<InventorySlot> inventorySlots = new List<InventorySlot>();
-
+    [SerializeField] private Sprite unknownItemImage;
     private PlayerController playerController;
     private Color changeColor;
 
@@ -73,7 +73,15 @@ public class InventoryManager : MonoBehaviour
                 changeColor = inventorySlots[i].itemImage.color;
                 changeColor.a = 1;
                 inventorySlots[i].ItemData = _itemData;
-                if(_itemData.itemImage != null) inventorySlots[i].itemImage.sprite = _itemData.itemImage;
+                if (_itemData.itemImage != null)
+                {
+                    inventorySlots[i].itemImage.sprite = _itemData.itemImage;
+                }
+                else
+                {
+                    inventorySlots[i].itemImage.sprite = unknownItemImage;
+                }
+
                 inventorySlots[i].itemImage.color = changeColor;
                 Debug.Log("아이템 추가" + _itemData.itemName);
                 break;

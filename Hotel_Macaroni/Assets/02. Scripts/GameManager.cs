@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public bool isGetNote = false; //플레이어가 노트를 획득했는지 확인하는 bool 값
     public string nowPlayerName;
 
-    public float realTimeToGameTimeRatio = 30f; // 실제 30초가 게임 내 1시간에 해당
+    [SerializeField] private float realTimeToGameTimeRatio = 30f; // 실제 30초가 게임 내 1시간에 해당
     private float gameTime; // 게임 내 시간 (시간 단위)
     private float gameHours; // 게임 내 시간 (시간)
     private float gameMinutes; // 게임 내 시간 (분)
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         GameTimeSystem();
     }
 
-    public void ChangePlayer()
+    public void ChangePlayer() //캐릭터 리스폰
     {
         Debug.Log("위치이동");
         //
@@ -128,12 +128,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayerDeadSequence());
     }
 
+    /*private IEnumerator PlayerStartSequence()
+    {
+
+    }*/
+
+
     private IEnumerator PlayerDeadSequence()
     {
-        playerController.PlayerDontMove(true);
-        playerController.CursorState(true);
-        deadUI.SetActive(true);
-        ChangePlayer();
+        playerController.PlayerDontMove(true); //이동 불가
+        playerController.CursorState(true); // 커서 멈추기
+        deadUI.SetActive(true); //사망 UI 켜기
+        ChangePlayer(); //플레이어 변경
         yield return new WaitForSeconds(5f);
         deadUI.SetActive(false);
         CharacterController characterController = player.GetComponent<CharacterController>();
